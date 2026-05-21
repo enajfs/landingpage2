@@ -679,24 +679,24 @@
     padding-bottom: 1.5rem;
   }
 
-  /* ─── About ─── */
-  #about {
+  /* ───  ─── */
+  # {
     padding: var(--section-pad) 0;
     background: var(--ink);
     color: var(--white);
     position: relative;
     overflow: hidden;
   }
-  #about .label { color: rgba(245,242,236,0.35); }
-  #about .label::before { background: var(--accent-warm); }
-  .about-inner {
+  # .label { color: rgba(245,242,236,0.35); }
+  # .label::before { background: var(--accent-warm); }
+  .-inner {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: 5rem;
     align-items: center;
   }
-  @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
-  .about-h2 {
+  @media (max-width: 768px) { .-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .-h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(2rem, 3.5vw, 2.8rem);
     font-weight: 600;
@@ -705,13 +705,13 @@
     color: var(--white);
     margin-bottom: 1.5rem;
   }
-  .about-h2 em { font-style: italic; color: var(--accent-warm); }
-  .about-body {
+  .-h2 em { font-style: italic; color: var(--accent-warm); }
+  .-body {
     color: rgba(245,242,236,0.65);
     line-height: 1.8;
     font-size: 1.05rem;
   }
-  .about-body + .about-body { margin-top: 1.25rem; }
+  .-body + .about-body { margin-top: 1.25rem; }
   .about-stat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1074,7 +1074,14 @@
         <p class="about-body">This isn't a startup built on a hypothesis. It's a tool built on a pattern we kept seeing: smart operators losing time and trust to an inbox they couldn't get ahead of.</p>
         <p class="about-body" style="color:rgba(245,242,236,0.4);font-size:0.9rem;">No fabricated testimonials. No fake customer logos. We're pre-launch and we'll tell you that honestly.</p>
       </div>
-      <div class="about-stat-grid reveal reveal-delay-1">
+    <div class="reveal reveal-delay-1" style="margin-bottom: 1.5rem;">
+  <img 
+    src="photohere.png" 
+    alt="Business professionals ready to get ahead" 
+    style="width:100%; border-radius:4px; display:block; object-fit:cover; max-height:260px;"
+  >
+</div>
+<div class="about-stat-grid reveal reveal-delay-1">
         <div class="about-stat">
           <div class="stat-val">06:55</div>
           <div class="stat-label">Daily briefing time</div>
