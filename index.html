@@ -1,729 +1,1244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeadStart — Start your day with clarity</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
-        
-        :root {
-            --bg: #0a0a0a;
-            --surface: #111111;
-            --text: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --accent: #c9a66b;
-        }
-        
-        * {
-            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
-        }
-        
-        body {
-            font-family: 'DM Sans', system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-        }
-        
-        .heading-font {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .section-header {
-            font-size: 2.75rem;
-            line-height: 1.1;
-        }
-        
-        .nav-link {
-            position: relative;
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: var(--accent);
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover:after {
-            width: 100%;
-        }
-        
-        .feature-card {
-            background-color: var(--surface);
-        }
-        
-        .mockup {
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
-            border: 12px solid #1f1f1f;
-            border-radius: 2.5rem;
-            overflow: hidden;
-            background: #111;
-        }
-        
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 2px;
-            background: linear-gradient(to right, var(--accent), #e2b16a);
-            z-index: 50;
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .cta-button {
-            background: linear-gradient(90deg, #c9a66b, #e2c38a);
-            color: #111;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 25px -5px rgb(201 166 107 / 0.3), 0 8px 10px -6px rgb(201 166 107 / 0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeadStart — Your Morning Inbox Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0e0d0b;
+    --ink-soft: #3a3832;
+    --ink-muted: #7a776e;
+    --paper: #f5f2ec;
+    --paper-warm: #ede9e0;
+    --paper-deep: #e2ddd4;
+    --accent: #c4531a;
+    --accent-warm: #d96a2e;
+    --accent-pale: #f5e8e0;
+    --rule: #d4cfc6;
+    --white: #faf8f4;
+
+    --fs-xl: clamp(2.8rem, 6vw, 5.2rem);
+    --fs-lg: clamp(2rem, 4vw, 3.2rem);
+    --fs-md: clamp(1.3rem, 2.5vw, 1.75rem);
+    --fs-base: clamp(1rem, 1.5vw, 1.125rem);
+    --fs-sm: 0.9rem;
+    --fs-mono: 0.8rem;
+
+    --radius: 2px;
+    --max-w: 1120px;
+    --section-pad: clamp(5rem, 10vw, 9rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    font-size: var(--fs-base);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── Utility ─── */
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
+  .mono { font-family: 'DM Mono', monospace; }
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: var(--fs-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+  }
+  .label::before {
+    content: '';
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* ─── Fade-in on scroll ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── Buttons ─── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    border-radius: var(--radius);
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(196,83,26,0.25);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .btn-arrow::after { content: '→'; }
+
+  /* ─── Nav ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 0;
+    background: rgba(245,242,236,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(14,13,11,0.06); }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ─── Hero ─── */
+  #hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding-top: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: clamp(4rem, 10vh, 8rem) 0 clamp(3rem, 6vh, 6rem);
+  }
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; }
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--accent-pale);
+    border: 1px solid rgba(196,83,26,0.2);
+    padding: 0.45rem 1rem;
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .hero-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--ink-soft);
+    line-height: 1.75;
+    max-width: 42ch;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .hero-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Hero visual — mock notification */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .phone-frame {
+    width: min(280px, 100%);
+    background: var(--white);
+    border-radius: 28px;
+    box-shadow: 0 40px 80px rgba(14,13,11,0.14), 0 0 0 1px var(--rule);
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-notch {
+    height: 28px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-notch-pill {
+    width: 60px; height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+  }
+  .phone-screen { padding: 1.25rem; }
+  .phone-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    text-align: center;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.08em;
+  }
+  .notif-card {
+    background: var(--paper);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--rule);
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .notif-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .notif-icon {
+    width: 22px; height: 22px;
+    background: var(--ink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon svg { width: 12px; height: 12px; fill: var(--white); }
+  .notif-app {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .notif-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+  .notif-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+  .notif-body {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .briefing-preview {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 0.75rem;
+    border: 1px solid var(--rule);
+  }
+  .bp-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+  .bp-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--paper-deep);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+  .bp-item:last-child { border-bottom: none; }
+  .bp-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .badge-action { background: rgba(196,83,26,0.12); color: var(--accent); }
+  .badge-meeting { background: rgba(14,13,11,0.08); color: var(--ink-soft); }
+  .badge-ok { background: rgba(50,140,80,0.1); color: #328c50; }
+  .hero-deco {
+    position: absolute;
+    right: -60px; top: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,83,26,0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ─── Section divider ─── */
+  .rule-section {
+    height: 1px;
+    background: var(--rule);
+    margin: 0;
+  }
+
+  /* ─── Problem ─── */
+  #problem {
+    padding: var(--section-pad) 0;
+    background: var(--ink);
+    color: var(--white);
+  }
+  #problem .label { color: rgba(245,242,236,0.4); }
+  #problem .label::before { background: var(--accent); }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  @media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .problem-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .problem-h2 em { font-style: italic; color: var(--accent-warm); }
+  .problem-lead {
+    margin-top: 1.5rem;
+    color: rgba(245,242,236,0.65);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    max-width: 40ch;
+  }
+  .pain-list { list-style: none; display: flex; flex-direction: column; gap: 2rem; }
+  .pain-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .pain-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-warm);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
+    flex-shrink: 0;
+    width: 2rem;
+  }
+  .pain-content {}
+  .pain-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 0.35rem;
+  }
+  .pain-desc {
+    font-size: 0.92rem;
+    color: rgba(245,242,236,0.55);
+    line-height: 1.7;
+  }
+
+  /* ─── What HeadStart Does ─── */
+  #features {
+    padding: var(--section-pad) 0;
+    background: var(--paper);
+  }
+  .features-intro { max-width: 48ch; margin-bottom: 4rem; }
+  .features-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .features-h2 em { font-style: italic; color: var(--accent); }
+  .features-lead { color: var(--ink-soft); line-height: 1.75; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--rule);
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .feature-card {
+    background: var(--white);
+    padding: 2.25rem 2rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: var(--paper-warm); }
+  .feature-index {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+  .feature-desc { font-size: 0.92rem; color: var(--ink-soft); line-height: 1.7; }
+  .feature-card.highlight { background: var(--ink); }
+  .feature-card.highlight:hover { background: #1a1916; }
+  .feature-card.highlight .feature-title { color: var(--white); }
+  .feature-card.highlight .feature-index { color: var(--accent-warm); }
+  .feature-card.highlight .feature-desc { color: rgba(245,242,236,0.6); }
+  .feature-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-warm);
+    background: rgba(196,83,26,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  /* ─── CTA ─── */
+  #cta {
+    padding: var(--section-pad) 0;
+    background: var(--paper-warm);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .cta-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .cta-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .cta-h2 em { font-style: italic; color: var(--accent); }
+  .cta-sub {
+    margin-top: 1.25rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    font-size: 1.05rem;
+  }
+  .cta-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .form-input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--white);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-input:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(14,13,11,0.06);
+  }
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%237a776e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    cursor: pointer;
+  }
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+  .form-disclaimer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  .success-msg {
+    display: none;
+    padding: 1.5rem;
+    background: rgba(50,140,80,0.08);
+    border: 1px solid rgba(50,140,80,0.2);
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: #328c50;
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .cta-bg-deco {
+    position: absolute;
+    right: -100px; bottom: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .cta-bg-deco::after {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+  }
+
+  /* ─── FAQ ─── */
+  #faq {
+    padding: var(--section-pad) 0;
+    background: var(--paper);
+  }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  @media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .faq-sticky { position: sticky; top: 6rem; }
+  .faq-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .faq-sub { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.7; }
+  .faq-list { display: flex; flex-direction: column; }
+  .faq-item {
+    border-top: 1px solid var(--rule);
+    cursor: pointer;
+  }
+  .faq-item:last-child { border-bottom: 1px solid var(--rule); }
+  .faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--ink);
+    user-select: none;
+    transition: color 0.2s;
+  }
+  .faq-item:hover .faq-q { color: var(--accent); }
+  .faq-icon {
+    width: 24px; height: 24px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .faq-icon svg { width: 10px; height: 10px; transition: transform 0.3s; }
+  .faq-item.open .faq-icon {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .faq-item.open .faq-icon svg { fill: var(--white); transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding-bottom: 1.5rem;
+  }
+
+  /* ─── About ─── */
+  #about {
+    padding: var(--section-pad) 0;
+    background: var(--ink);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  #about .label { color: rgba(245,242,236,0.35); }
+  #about .label::before { background: var(--accent-warm); }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .about-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .about-h2 em { font-style: italic; color: var(--accent-warm); }
+  .about-body {
+    color: rgba(245,242,236,0.65);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+  .about-body + .about-body { margin-top: 1.25rem; }
+  .about-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(245,242,236,0.1);
+    border: 1px solid rgba(245,242,236,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .about-stat {
+    background: rgba(245,242,236,0.04);
+    padding: 2rem;
+  }
+  .stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
+  }
+  .about-deco {
+    position: absolute;
+    left: -80px; top: 50%;
+    transform: translateY(-50%);
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,83,26,0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ─── Footer ─── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(245,242,236,0.08);
+    padding: 2.5rem 0;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .footer-logo span { color: var(--accent-warm); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,242,236,0.3);
+  }
+  .footer-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(245,242,236,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Intro Screen ─── */
+  #intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    overflow: hidden;
+    transition: opacity 0.8s ease;
+  }
+  #intro-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  #intro-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(14,13,11,0.52);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .intro-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 600;
+    color: #faf8f4;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .intro-logo span { color: #c4531a; }
+  .intro-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.6);
+    margin-top: 0.5rem;
+  }
+  .intro-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.35);
+    animation: nudge 2s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.35; }
+    50% { transform: translateX(-50%) translateY(6px); opacity: 0.7; }
+  }
+
+  /* ─── Scroll reveal init ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
 </head>
-<body class="overflow-x-hidden">
-    <!-- Progress bar -->
-    <div id="progress-bar" class="scroll-progress w-0"></div>
+<body>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-white/10">
-        <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-7 h-7 bg-[#c9a66b] rounded-2xl flex items-center justify-center text-[#111] text-xl font-bold leading-none pt-0.5">H</div>
-                <span class="heading-font text-3xl tracking-tighter font-semibold">HeadStart</span>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
-                <a href="#problem" class="nav-link text-white/80 hover:text-white">The Problem</a>
-                <a href="#how" class="nav-link text-white/80 hover:text-white">How it works</a>
-                <a href="#faq" class="nav-link text-white/80 hover:text-white">FAQ</a>
-            </div>
-            
-            <button onclick="showSignupModal()" 
-                    class="px-6 py-3.5 text-sm font-semibold rounded-2xl bg-white/5 hover:bg-white/10 border border-white/20 flex items-center gap-x-2">
-                <span>Get early access</span>
-            </button>
+<!-- INTRO SCREEN -->
+<div id="intro-screen">
+  <img src="photohere.png" alt="Business professionals at the starting line">
+  <div id="intro-overlay">
+    <div class="intro-logo">Head<span>Start</span></div>
+    <div class="intro-tagline">Your morning inbox briefing</div>
+  </div>
+  <div class="intro-scroll-hint">scroll to begin ↓</div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">Head<span>Start</span></a>
+    <ul class="nav-links">
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#features">How It Works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#cta" class="btn btn-primary" style="padding:0.55rem 1.25rem;font-size:0.75rem;">Get Early Access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <span class="dot"></span>
+          Pre-Launch · Early Access
         </div>
-    </nav>
-
-    <!-- HERO -->
-    <section class="relative min-h-screen flex items-center overflow-hidden">
-
-        <!-- Full-screen background image with parallax -->
-        <div id="hero-bg" class="absolute inset-0 z-0" style="will-change: transform;">
-            <img 
-                src="photohere.png" 
-                alt="Business professionals at the starting line"
-                class="w-full h-full object-cover object-center scale-110"
-            >
-            <!-- Dark gradient overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/70 via-[#0a0a0a]/40 to-[#0a0a0a]/90"></div>
-            <!-- Side vignette -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/60 via-transparent to-[#0a0a0a]/60"></div>
+        <h1 class="hero-h1 reveal reveal-delay-1">
+          Your inbox,<br>
+          <em>briefed</em> at 06:55.
+        </h1>
+        <p class="hero-sub reveal reveal-delay-2">
+          HeadStart cuts through the noise in your inbox, surfaces only what matters, and ensures you never drop a follow-up again — delivered as a single push notification every morning.
+        </p>
+        <div class="hero-cta-row reveal reveal-delay-3">
+          <a href="#cta" class="btn btn-primary btn-arrow">Get Early Access</a>
+          <span class="hero-note">No pricing. No spam. Just a heads-up when we launch.</span>
         </div>
-
-        <!-- Scroll-fade overlay -->
-        <div id="hero-fade" class="absolute inset-0 bg-[#0a0a0a] z-10 pointer-events-none" style="opacity: 0;"></div>
-
-        <!-- Content -->
-        <div class="relative z-20 max-w-screen-2xl mx-auto px-8 grid md:grid-cols-12 gap-16 items-center pt-32 pb-20">
-            <!-- Left content -->
-            <div class="md:col-span-7 pt-12 md:pt-0">
-                <div class="inline-flex items-center gap-x-2 bg-white/5 text-white/70 text-xs tracking-[0.125em] font-medium px-5 py-2.5 rounded-3xl mb-8 border border-white/10">
-                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    NOW ACCEPTING EARLY ACCESS
+      </div>
+      <div class="hero-visual reveal reveal-delay-2">
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+          <div class="phone-screen">
+            <div class="phone-time">06:55 · Friday</div>
+            <div class="notif-card">
+              <div class="notif-header">
+                <div class="notif-icon">
+                  <svg viewBox="0 0 16 16"><path d="M8 1a5 5 0 0 0-5 5v1.5l-1 1.5v1h12v-1l-1-1.5V6a5 5 0 0 0-5-5zm0 14a2 2 0 0 1-2-2h4a2 2 0 0 1-2 2z"/></svg>
                 </div>
-                
-                <h1 class="heading-font text-7xl md:text-[92px] leading-[1.05] tracking-tighter font-semibold max-w-[22ch]">
-                    Your inbox,<br>finally tamed.
-                </h1>
-                
-                <p class="mt-8 text-2xl text-white/70 max-w-[28ch] leading-tight">
-                    A 06:55 briefing that surfaces only what matters and ensures you never forget to follow up.
-                </p>
-                
-                <div class="mt-12 flex flex-wrap gap-4">
-                    <button onclick="showSignupModal()" 
-                            class="cta-button px-10 py-6 rounded-3xl text-xl font-semibold flex items-center gap-x-3 group">
-                        Join the waitlist
-                        <span class="inline-block group-active:rotate-45 transition-transform">→</span>
-                    </button>
-                    
-                    <button onclick="document.getElementById('how').scrollIntoView({ behavior: 'smooth' })" 
-                            class="px-8 py-6 rounded-3xl border border-white/30 hover:border-white/60 text-lg font-medium">
-                        See how it works
-                    </button>
-                </div>
-                
-                <div class="mt-16 flex items-center gap-x-8 text-sm">
-                    <div class="flex -space-x-4">
-                        <div class="w-8 h-8 bg-zinc-700 border-2 border-[#0a0a0a] rounded-2xl flex items-center justify-center text-xs">📧</div>
-                        <div class="w-8 h-8 bg-zinc-700 border-2 border-[#0a0a0a] rounded-2xl flex items-center justify-center text-xs">📅</div>
-                    </div>
-                    <div class="text-white/60">
-                        Works with Gmail &amp; Outlook<br>
-                        <span class="text-emerald-400 text-xs">• No inbox changes • Your data stays yours</span>
-                    </div>
-                </div>
+                <span class="notif-app">HeadStart</span>
+                <span class="notif-time">now</span>
+              </div>
+              <div class="notif-title">Your morning briefing is ready</div>
+              <div class="notif-body">3 action items · 1 unresolved from yesterday · 2 meetings</div>
             </div>
-            
-            <!-- Right visual -->
-            <div class="md:col-span-5 relative">
-                <div class="mockup mx-auto max-w-xs md:max-w-md aspect-[9/19] relative">
-                    <div class="bg-[#0f172a] h-full p-3 flex flex-col">
-                        <div class="flex justify-between text-[10px] text-white/60 px-3 pt-2">
-                            <div>9:41</div>
-                            <div class="flex items-center gap-x-3">
-                                <span>5G</span>
-                                <span>92%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 bg-[#1e2937] rounded-3xl p-5 text-sm">
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="font-semibold text-[#c9a66b]">Good morning, Alex</div>
-                                <div class="text-xs px-3 py-1 bg-white/10 rounded-3xl">Today</div>
-                            </div>
-                            
-                            <div class="space-y-6">
-                                <div>
-                                    <div class="flex gap-x-3">
-                                        <div class="text-2xl">📨</div>
-                                        <div class="flex-1">
-                                            <div class="font-medium">Sarah Chen • Proposal feedback</div>
-                                            <div class="text-white/60 text-xs mt-0.5">Action required • Sent 7:12am</div>
-                                            <div class="mt-3 text-xs text-emerald-400 font-medium">✓ Responded</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <div class="flex gap-x-3">
-                                        <div class="text-2xl">📅</div>
-                                        <div class="flex-1">
-                                            <div class="font-medium">Q3 planning sync</div>
-                                            <div class="text-white/60 text-xs mt-0.5">Meeting • Tomorrow 11am</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-auto text-center text-[10px] text-white/40 py-6">
-                            4 items need attention • 2 resolved
-                        </div>
-                    </div>
-                    
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[2.25rem]"></div>
-                </div>
-                
-                <div class="absolute -bottom-4 -left-6 bg-[#111] border border-white/10 rounded-3xl px-6 py-4 shadow-2xl text-sm max-w-[180px]">
-                    <div class="flex items-center gap-x-2">
-                        <span class="text-emerald-400">●</span>
-                        <span class="font-medium">06:55 notification sent</span>
-                    </div>
-                </div>
+            <div class="briefing-preview">
+              <div class="bp-label">Today's Briefing</div>
+              <div class="bp-item">
+                <span class="bp-badge badge-action">Action</span>
+                <span>Proposal approval pending — Sarah K.</span>
+              </div>
+              <div class="bp-item">
+                <span class="bp-badge badge-action">⚠ Overdue</span>
+                <span>Quote follow-up — Marcus, 2 days ago</span>
+              </div>
+              <div class="bp-item">
+                <span class="bp-badge badge-meeting">Meeting</span>
+                <span>Quarterly review · 10:00 AM</span>
+              </div>
+              <div class="bp-item">
+                <span class="bp-badge badge-ok">Replied</span>
+                <span>Vendor contract — confirmed ✓</span>
+              </div>
             </div>
+          </div>
         </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-y-2">
-            <div class="text-xs tracking-widest text-white/40">SCROLL TO EXPLORE</div>
-            <div class="w-px h-12 bg-gradient-to-b from-transparent via-white/30 to-transparent animate-pulse"></div>
-        </div>
-    </section>
-
-    <!-- PROBLEM -->
-    <section id="problem" class="py-28 border-t border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid md:grid-cols-12 gap-x-20 items-center">
-                <div class="md:col-span-5">
-                    <span class="inline-block uppercase text-xs tracking-[1.5px] text-amber-300 mb-3">THE DAILY COST</span>
-                    <h2 class="heading-font section-header">Your inbox is quietly stealing your day.</h2>
-                </div>
-                
-                <div class="md:col-span-7 mt-10 md:mt-0">
-                    <div class="space-y-16">
-                        <div class="grid md:grid-cols-2 gap-16">
-                            <div class="fade-in">
-                                <div class="text-7xl mb-6 text-white/20">01</div>
-                                <div class="text-3xl heading-font leading-tight">The stolen first hour</div>
-                                <p class="mt-6 text-lg text-white/70">
-                                    Every morning begins with 30–60 minutes of inbox triage before real work can start. 
-                                    That's valuable focus time lost to noise.
-                                </p>
-                            </div>
-                            
-                            <div class="fade-in">
-                                <div class="text-7xl mb-6 text-white/20">02</div>
-                                <div class="text-3xl heading-font leading-tight">Forgotten follow-ups</div>
-                                <p class="mt-6 text-lg text-white/70">
-                                    You read an important email, intend to reply later, and it slips through the cracks. 
-                                    Relationships and opportunities suffer.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="border-l border-white/10 pl-8 max-w-md">
-                            <p class="italic text-white/60">
-                                "By Thursday I've usually dropped at least three things I meant to follow up on."
-                            </p>
-                            <p class="text-xs text-white/40 mt-6">— Typical SMB founder</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WHAT HEADSTART DOES -->
-    <section id="how" class="py-28 bg-[#111111]">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="max-w-2xl mx-auto text-center mb-20">
-                <span class="px-5 py-2 rounded-full bg-white/5 text-xs font-medium tracking-wider">SIMPLE BY DESIGN</span>
-                <h2 class="heading-font section-header mt-6">One daily briefing.<br>Zero forgotten replies.</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card p-10 rounded-3xl fade-in group">
-                    <div class="h-14 w-14 bg-white/10 flex items-center justify-center rounded-2xl text-4xl mb-8 group-hover:scale-110">📬</div>
-                    <h3 class="text-2xl font-semibold mb-3">Cuts through the noise</h3>
-                    <p class="text-white/70">
-                        Filters out newsletters, promotions, and automated messages. Only shows emails that require your attention.
-                    </p>
-                </div>
-                
-                <div class="feature-card p-10 rounded-3xl fade-in group">
-                    <div class="h-14 w-14 bg-white/10 flex items-center justify-center rounded-2xl text-4xl mb-8 group-hover:scale-110">✅</div>
-                    <h3 class="text-2xl font-semibold mb-3">Tracks follow-through</h3>
-                    <p class="text-white/70">
-                        Automatically checks your Sent and Drafts folders. Clearly shows what's pending, started, or resolved.
-                    </p>
-                </div>
-                
-                <div class="feature-card p-10 rounded-3xl fade-in group">
-                    <div class="h-14 w-14 bg-white/10 flex items-center justify-center rounded-2xl text-4xl mb-8 group-hover:scale-110">🌅</div>
-                    <h3 class="text-2xl font-semibold mb-3">Self-healing system</h3>
-                    <p class="text-white/70">
-                        Unresolved items automatically roll into tomorrow's briefing. Works even when life gets busy.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="mt-20 bg-[#1a1a1a] border border-white/10 rounded-3xl p-12 md:p-16 max-w-3xl mx-auto">
-                <div class="flex flex-col md:flex-row gap-12 items-center">
-                    <div>
-                        <div class="uppercase text-xs tracking-widest mb-2">Every morning at 06:55</div>
-                        <div class="text-5xl heading-font leading-none">A single push notification</div>
-                        <p class="mt-8 text-white/70 max-w-xs">
-                            One tap opens your personalized briefing. Available on-demand anytime after.
-                        </p>
-                    </div>
-                    <div class="flex-1 flex justify-center">
-                        <div class="text-center bg-black/40 px-10 py-8 rounded-3xl">
-                            <div class="text-8xl mb-3">📱</div>
-                            <div class="text-emerald-400 font-medium">06:55</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TRUST BAR -->
-    <div class="py-12 border-t border-b border-white/5 bg-black/30">
-        <div class="max-w-screen-2xl mx-auto px-8 flex flex-wrap justify-center items-center gap-x-16 gap-y-8 opacity-75 text-sm">
-            <div class="flex items-center gap-x-6">
-                <span class="font-mono text-3xl text-white/30">G</span>
-                <span class="font-medium">Gmail</span>
-            </div>
-            <div class="flex items-center gap-x-6">
-                <span class="font-mono text-3xl text-white/30">O</span>
-                <span class="font-medium">Outlook</span>
-            </div>
-            <div>Microsoft 365</div>
-            <div>Google Workspace</div>
-        </div>
+        <div class="hero-deco"></div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- CTA SECTION -->
-    <section class="py-32 bg-gradient-to-b from-transparent via-[#c9a66b]/5 to-transparent">
-        <div class="max-w-2xl mx-auto text-center px-6">
-            <h2 class="heading-font text-6xl leading-none tracking-tighter">Ready to stop losing hours to email?</h2>
-            <p class="mt-8 text-xl text-white/70">
-                Be among the first to try HeadStart. Limited early access spots available.
-            </p>
-            
-            <button onclick="showSignupModal()" 
-                    class="mt-12 cta-button px-16 py-8 text-2xl rounded-3xl inline-flex items-center gap-x-4">
-                Get Early Access — It's Free
-            </button>
-            
-            <p class="text-xs text-white/40 mt-8">Takes 15 seconds • No credit card required</p>
-        </div>
-    </section>
+<div class="rule-section"></div>
 
-    <!-- FAQ -->
-    <section id="faq" class="py-28">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid md:grid-cols-12 gap-20">
-                <div class="md:col-span-5">
-                    <span class="text-amber-300 uppercase text-sm tracking-widest">Common questions</span>
-                    <h2 class="heading-font text-6xl mt-3 leading-none">Everything you need to know.</h2>
-                </div>
-                
-                <div class="md:col-span-7 space-y-10">
-                    <div class="faq-item border-b border-white/10 pb-8">
-                        <button onclick="toggleFaq(this)" class="flex justify-between items-center w-full text-left group">
-                            <span class="text-xl font-medium">Will HeadStart read all my emails?</span>
-                            <span class="text-3xl text-white/30 group-hover:text-white/70">+</span>
-                        </button>
-                        <div class="faq-answer hidden mt-6 text-white/70 text-[17px]">
-                            HeadStart only analyzes your inbox to surface action items and follow-ups. It never stores full email content beyond what's necessary for classification and status tracking.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item border-b border-white/10 pb-8">
-                        <button onclick="toggleFaq(this)" class="flex justify-between items-center w-full text-left group">
-                            <span class="text-xl font-medium">Does it change or organize my inbox?</span>
-                            <span class="text-3xl text-white/30 group-hover:text-white/70">+</span>
-                        </button>
-                        <div class="faq-answer hidden mt-6 text-white/70 text-[17px]">
-                            No. HeadStart is a read-only view. Your actual inbox remains completely untouched.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item border-b border-white/10 pb-8">
-                        <button onclick="toggleFaq(this)" class="flex justify-between items-center w-full text-left group">
-                            <span class="text-xl font-medium">What happens if I miss the morning notification?</span>
-                            <span class="text-3xl text-white/30 group-hover:text-white/70">+</span>
-                        </button>
-                        <div class="faq-answer hidden mt-6 text-white/70 text-[17px]">
-                            Yesterday's unresolved items will automatically appear in tomorrow's briefing. The system is designed to be forgiving.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item border-b border-white/10 pb-8">
-                        <button onclick="toggleFaq(this)" class="flex justify-between items-center w-full text-left group">
-                            <span class="text-xl font-medium">Is my data private and secure?</span>
-                            <span class="text-3xl text-white/30 group-hover:text-white/70">+</span>
-                        </button>
-                        <div class="faq-answer hidden mt-6 text-white/70 text-[17px]">
-                            Yes. We use secure OAuth connections with your email provider and are built with the future ability to run on your own infrastructure.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item border-b border-white/10 pb-8">
-                        <button onclick="toggleFaq(this)" class="flex justify-between items-center w-full text-left group">
-                            <span class="text-xl font-medium">Can I use it throughout the day?</span>
-                            <span class="text-3xl text-white/30 group-hover:text-white/70">+</span>
-                        </button>
-                        <div class="faq-answer hidden mt-6 text-white/70 text-[17px]">
-                            Absolutely. Open the briefing page or install the PWA anytime for an up-to-date view of what still needs your attention.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="py-28 bg-[#111]">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <!-- Left: text -->
-                <div>
-                    <div class="uppercase text-xs tracking-widest mb-6 text-amber-300">THE STORY BEHIND HEADSTART</div>
-                    <h2 class="heading-font text-6xl leading-tight">Built for busy SMB operators who are tired of email chaos.</h2>
-                    <div class="prose prose-invert mt-10 text-lg">
-                        <p>HeadStart was created by the team at SMB-Integrator after watching founders and operators lose hours every week to fragmented inboxes and dropped replies.</p>
-                        <p class="mt-4">We believe your morning should begin with clarity, not overwhelm. And that follow-through shouldn't depend on perfect memory.</p>
-                    </div>
-                    <div class="mt-12 flex items-center gap-x-4">
-                        <div class="w-12 h-px bg-white/30"></div>
-                        <div class="text-sm uppercase tracking-widest">Coming soon to more channels</div>
-                    </div>
-                </div>
-                <!-- Right: image -->
-                <div class="rounded-3xl overflow-hidden h-[480px]">
-                    <img 
-                        src="photohere.png" 
-                        alt="Business professionals ready to start" 
-                        class="w-full h-full object-cover object-center"
-                    >
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="py-24 border-t border-white/10">
-        <div class="max-w-2xl mx-auto px-6 text-center">
-            <p class="text-3xl font-light">Stop starting your day in catch-up mode.</p>
-            <button onclick="showSignupModal()" 
-                    class="mt-10 cta-button w-full md:w-auto px-20 py-8 text-2xl rounded-3xl">
-                Claim your early access
-            </button>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-black py-20 border-t border-white/10">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-y-12">
-                <div>
-                    <div class="flex items-center gap-x-3">
-                        <div class="w-7 h-7 bg-[#c9a66b] rounded-2xl flex items-center justify-center text-[#111] text-2xl font-bold leading-none">H</div>
-                        <span class="heading-font text-4xl tracking-tighter">HeadStart</span>
-                    </div>
-                    <p class="text-white/40 mt-6 text-sm max-w-xs">
-                        Morning clarity for SMB teams.
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-3 gap-x-16 text-sm">
-                    <div>
-                        <div class="font-medium mb-6 text-white/80">Product</div>
-                        <div class="space-y-4 text-white/50">
-                            <div>How it works</div>
-                            <div>Early access</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="font-medium mb-6 text-white/80">Company</div>
-                        <div class="space-y-4 text-white/50">
-                            <div>About</div>
-                            <div>Contact</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="font-medium mb-6 text-white/80">Legal</div>
-                        <div class="space-y-4 text-white/50">
-                            <div>Privacy</div>
-                            <div>Terms</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-20 pt-8 border-t border-white/10 text-xs text-white/30 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div>© 2026 HeadStart. All rights reserved.</div>
-                <div class="flex gap-x-6">
-                    <a href="#" class="hover:text-white">Twitter</a>
-                    <a href="#" class="hover:text-white">LinkedIn</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SIGNUP MODAL -->
-    <div id="signup-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-[9999]">
-        <div onclick="event.stopImmediatePropagation()" 
-             class="bg-[#111] max-w-md w-full mx-4 rounded-3xl p-10 relative">
-            
-            <button onclick="hideSignupModal()" 
-                    class="absolute top-6 right-6 text-white/40 hover:text-white text-3xl leading-none">×</button>
-            
-            <div class="text-center">
-                <div class="mx-auto w-16 h-16 bg-gradient-to-br from-amber-300 to-yellow-600 rounded-3xl flex items-center justify-center text-4xl mb-6">🌅</div>
-                <h3 class="heading-font text-4xl">Join the early access list</h3>
-                <p class="mt-3 text-white/70">Be the first to experience calmer mornings.</p>
-            </div>
-            
-            <form id="signup-form" onsubmit="handleSubmit(event)" class="mt-10 space-y-6">
-                <div>
-                    <label class="block text-xs uppercase tracking-widest mb-2 text-white/60">Work email</label>
-                    <input id="email" type="email" required 
-                           class="w-full bg-white/5 border border-white/20 focus:border-[#c9a66b] rounded-2xl px-6 py-6 outline-none text-lg"
-                           placeholder="you@company.com">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs uppercase tracking-widest mb-2 text-white/60">First name</label>
-                        <input id="first-name" type="text" 
-                               class="w-full bg-white/5 border border-white/20 focus:border-[#c9a66b] rounded-2xl px-6 py-6 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-widest mb-2 text-white/60">Company</label>
-                        <input id="company" type="text" 
-                               class="w-full bg-white/5 border border-white/20 focus:border-[#c9a66b] rounded-2xl px-6 py-6 outline-none">
-                    </div>
-                </div>
-                
-                <div class="pt-4">
-                    <button type="submit"
-                            class="w-full cta-button py-7 text-xl rounded-3xl">
-                        Yes, I'm in
-                    </button>
-                </div>
-                
-                <p class="text-center text-xs text-white/40">
-                    We respect your inbox. You can unsubscribe anytime.
-                </p>
-            </form>
-            
-            <div id="success-state" class="hidden text-center py-8">
-                <div class="text-6xl mb-6">🎉</div>
-                <h3 class="heading-font text-3xl">You're on the list!</h3>
-                <p class="mt-4 text-white/70">We'll notify you as soon as HeadStart is ready for you.</p>
-                <button onclick="hideSignupModal()" 
-                        class="mt-8 text-sm underline">Close</button>
-            </div>
-        </div>
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="reveal">
+        <span class="label">The Problem</span>
+        <h2 class="problem-h2">Your inbox is <em>stealing</em> the best hours of your day.</h2>
+        <p class="problem-lead">Catching up on email steals the first hour of every workday. You start a reply, get distracted, forget. By Thursday you've dropped three things you meant to follow up on.</p>
+      </div>
+      <ul class="pain-list">
+        <li class="pain-item reveal reveal-delay-1">
+          <span class="pain-num">01</span>
+          <div class="pain-content">
+            <div class="pain-title">The stolen hour</div>
+            <div class="pain-desc">Every workday begins with 30–60 minutes of inbox catch-up before any real work gets done. That's roughly 12.5% of payroll spent on orientation, not production.</div>
+          </div>
+        </li>
+        <li class="pain-item reveal reveal-delay-2">
+          <span class="pain-num">02</span>
+          <div class="pain-content">
+            <div class="pain-title">Fragmented mini-versions of the same pain</div>
+            <div class="pain-desc">After a meeting, post-lunch, end-of-day — each transition into the inbox repeats the orientation cost. A quick glance becomes 10 distracted minutes.</div>
+          </div>
+        </li>
+        <li class="pain-item reveal reveal-delay-3">
+          <span class="pain-num">03</span>
+          <div class="pain-content">
+            <div class="pain-title">Forgotten replies and aging drafts</div>
+            <div class="pain-desc">You read an email meaning to reply later and forget entirely. This isn't just a time cost — it's a trust and reputation cost. Forgetting to reply costs customers, deals, and relationships.</div>
+          </div>
+        </li>
+        <li class="pain-item reveal reveal-delay-4">
+          <span class="pain-num">04</span>
+          <div class="pain-content">
+            <div class="pain-title">Tool-amnesia</div>
+            <div class="pain-desc">Without a recurring reminder, even a useful product erodes from a user's habits by week 2. They forget the URL was ever there.</div>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
+</section>
 
-    <script>
-        // Progress bar
-        function setupProgressBar() {
-            const progressBar = document.getElementById('progress-bar');
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = scrollTop / docHeight * 100;
-                progressBar.style.width = `${scrollPercent}%`;
-            });
-        }
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="features-intro reveal">
+      <span class="label">How It Works</span>
+      <h2 class="features-h2">Five mechanisms. One <em>clear head</em>.</h2>
+      <p class="features-lead">HeadStart doesn't reorganize your inbox or draft your replies. It shows you what matters, tells you what you've dropped, and makes sure you never forget it exists.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-index">01 — Surface</div>
+        <div class="feature-title">Only what matters</div>
+        <div class="feature-desc">Reads your mailbox, filters out commercial noise and noreply senders, then classifies the rest: action-required, meeting, status-update, or FYI. You see only items worth attention.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-index">02 — Track</div>
+        <div class="feature-title">Deterministic follow-through</div>
+        <div class="feature-desc">For each action-required item, HeadStart checks your Sent and Drafts via your mail provider's API. Status: pending, draft-started, or responded. No AI judgment — these are mailbox facts.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-index">03 — Deliver</div>
+        <div class="feature-title">Push at 06:55, every morning</div>
+        <div class="feature-desc">One push notification on your phone. One tap opens the briefing. The push also works as a daily reminder that the product exists — which is how it stays in your habit by week 4.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-index">04 — On-demand</div>
+        <div class="feature-title">Fresh delta, any time</div>
+        <div class="feature-desc">The briefing URL (or PWA on your home screen) generates a fresh delta-since-last-view every time you open it. No scheduled mid-day pushes — those fail on unpredictable workdays.</div>
+      </div>
+      <div class="feature-card highlight reveal reveal-delay-2" style="grid-column: span 2;">
+        <div class="feature-index">05 — Self-heal</div>
+        <div class="feature-title">Works even on the days you don't</div>
+        <div class="feature-desc">If you're too busy to engage during the day, yesterday's unhandled items show up in tomorrow's morning briefing automatically. There's no scenario where things slip because you were too busy.</div>
+        <span class="feature-tag">The under-appreciated one</span>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;padding:1.5rem 2rem;background:var(--paper-warm);border:1px solid var(--rule);border-radius:4px;" class="reveal">
+      <p style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--ink-muted);letter-spacing:0.04em;line-height:1.7;">
+        <strong style="color:var(--ink);letter-spacing:0;">HeadStart shows; it doesn't decide or do.</strong> No drafting replies, no archiving, no reorganizing your inbox. No inbox surface area added. No dashboard. No app to install. A push notification and a web page.
+      </p>
+    </div>
+  </div>
+</section>
 
-        // Parallax + fade on hero image as user scrolls
-        function setupHeroParallax() {
-            const heroBg = document.getElementById('hero-bg');
-            const heroFade = document.getElementById('hero-fade');
-            const heroSection = document.querySelector('section');
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <span class="label">Early Access</span>
+        <h2 class="cta-h2">Be first to start your day <em>ahead</em>.</h2>
+        <p class="cta-sub">HeadStart is pre-launch. Leave your email and we'll reach out personally when access is ready — no mass blast, no urgency gimmicks, just a genuine heads-up.</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <form class="cta-form" id="signup-form">
+          <div class="form-row">
+            <label class="form-label" for="email">Work email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="company-size">Company size</label>
+            <select class="form-input form-select" id="company-size" name="company_size">
+              <option value="">Select…</option>
+              <option>1–5 people</option>
+              <option>6–25 people</option>
+              <option>26–100 people</option>
+              <option>100+ people</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="mail-provider">Your inbox (optional)</label>
+            <select class="form-input form-select" id="mail-provider" name="mail_provider">
+              <option value="">Outlook or Gmail?</option>
+              <option>Outlook / Microsoft 365</option>
+              <option>Gmail / Google Workspace</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-arrow form-submit">Request Early Access</button>
+          <p class="form-disclaimer">No pricing commitment. No spam. Built by SMB-Integrator — a real company, a real product in progress.</p>
+        </form>
+        <div class="success-msg" id="success-msg">
+          ✓ You're on the list.<br>We'll be in touch personally when access opens.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-bg-deco"></div>
+</section>
 
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-sticky reveal">
+        <span class="label">FAQ</span>
+        <h2 class="faq-h2">Good questions deserve honest answers.</h2>
+        <p class="faq-sub">HeadStart is pre-launch. We'd rather tell you what we don't do than oversell what we do.</p>
+      </div>
+      <div class="faq-list reveal reveal-delay-1">
+        <div class="faq-item">
+          <div class="faq-q">
+            Will HeadStart read all my email?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">HeadStart reads your inbox to surface what matters — but it filters out commercial noise and noreply senders before classifying anything. It does not store your emails, does not modify your inbox, and does not label or archive anything. Your inbox is untouched.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            Is my data safe?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">HeadStart connects to your inbox via your mail provider's official API (Microsoft or Google). We don't store email content beyond what's needed to generate your briefing. The long-term architecture is designed so it can run on your own infrastructure when you're ready for that.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            What if I miss the morning notification?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">No problem — the briefing is available on-demand all day. Open the URL (or your home screen PWA) and you'll get a fresh delta-since-last-view. And if you miss a whole day, yesterday's unhandled items roll into tomorrow's morning briefing automatically. HeadStart is forgiving of real workdays.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            Does it work with Outlook and Gmail?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">Yes. HeadStart is built for SMB business users on both Microsoft 365 / Outlook and Google Workspace / Gmail. The platform doesn't determine whether the product is useful for you — the pain does.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            Will it draft replies or take action for me?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">No. HeadStart shows; it doesn't decide or do. No AI-generated replies, no auto-archiving, no actions taken on your behalf. What you do with the briefing is entirely up to you. This is a deliberate design constraint, not a gap to fill later.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            When does it launch? What's the price?
+            <span class="faq-icon"><svg viewBox="0 0 12 12" fill="var(--ink)"><path d="M6 1v10M1 6h10"/></svg></span>
+          </div>
+          <div class="faq-a">HeadStart is pre-launch. We're not sharing a timeline or pricing publicly yet — the commercial model is still being figured out for different audience segments. Leave your email and we'll have a real conversation when access is ready.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                // Parallax: image moves up at 40% scroll speed
-                if (heroBg) {
-                    heroBg.style.transform = `translateY(${scrollY * 0.4}px)`;
-                }
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-deco"></div>
+  <div class="container">
+    <div class="about-inner">
+      <div class="reveal">
+        <span class="label">Built by</span>
+        <h2 class="about-h2">SMB-<em>Integrator</em></h2>
+        <p class="about-body">HeadStart is built by SMB-Integrator — a company that works directly with small and medium-sized businesses to understand how they actually operate. We've seen the inbox problem up close, across dozens of companies.</p>
+        <p class="about-body">This isn't a startup built on a hypothesis. It's a tool built on a pattern we kept seeing: smart operators losing time and trust to an inbox they couldn't get ahead of.</p>
+        <p class="about-body" style="color:rgba(245,242,236,0.4);font-size:0.9rem;">No fabricated testimonials. No fake customer logos. We're pre-launch and we'll tell you that honestly.</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <img
+          src="photohere.png"
+          alt="Business professionals ready to get ahead"
+          style="width:100%; border-radius:4px; display:block; object-fit:cover; max-height:300px; margin-bottom:1.5rem;"
+        >
+        <div class="about-stat-grid">
+          <div class="about-stat">
+            <div class="stat-val">06:55</div>
+            <div class="stat-label">Daily briefing time</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-val">~1hr</div>
+            <div class="stat-label">Saved per workday</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-val">0</div>
+            <div class="stat-label">Actions taken on your behalf</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-val">∞</div>
+            <div class="stat-label">Days it forgives you for being busy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                // Fade overlay: fully opaque by 60% of hero height
-                if (heroFade) {
-                    const fadeProgress = Math.min(scrollY / (heroHeight * 0.6), 1);
-                    heroFade.style.opacity = fadeProgress;
-                }
-            }, { passive: true });
-        }
-        
-        // Fade in animations
-        function setupAnimations() {
-            const faders = document.querySelectorAll('.fade-in');
-            const appearOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-            const appearOnScroll = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, appearOptions);
-            faders.forEach(fader => {
-                appearOnScroll.observe(fader);
-            });
-        }
-        
-        // FAQ toggles
-        function toggleFaq(el) {
-            const answer = el.parentElement.querySelector('.faq-answer');
-            const isHidden = answer.classList.contains('hidden');
-            document.querySelectorAll('.faq-answer').forEach(ans => {
-                if (ans !== answer) ans.classList.add('hidden');
-            });
-            if (isHidden) {
-                answer.classList.remove('hidden');
-            } else {
-                answer.classList.add('hidden');
-            }
-        }
-        
-        // Modal controls
-        let modalOpen = false;
-        
-        function showSignupModal() {
-            document.getElementById('signup-modal').classList.remove('hidden');
-            document.getElementById('signup-modal').classList.add('flex');
-            document.getElementById('email').focus();
-            modalOpen = true;
-        }
-        
-        function hideSignupModal() {
-            const modal = document.getElementById('signup-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            setTimeout(() => {
-                document.getElementById('signup-form').classList.remove('hidden');
-                document.getElementById('success-state').classList.add('hidden');
-            }, 300);
-            modalOpen = false;
-        }
-        
-        function handleSubmit(e) {
-            e.preventDefault();
-            document.getElementById('signup-form').classList.add('hidden');
-            document.getElementById('success-state').classList.remove('hidden');
-            console.log('%cEarly access signup captured!', 'color:#c9a66b; font-size:13px');
-        }
-        
-        function setupKeyboard() {
-            document.addEventListener('keydown', function(e) {
-                if (e.key === "Escape" && modalOpen) {
-                    hideSignupModal();
-                }
-            });
-        }
-        
-        function setupModalClick() {
-            const modal = document.getElementById('signup-modal');
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    hideSignupModal();
-                }
-            });
-        }
-        
-        function initialize() {
-            setupProgressBar();
-            setupHeroParallax();
-            setupAnimations();
-            setupKeyboard();
-            setupModalClick();
-            
-            setTimeout(() => {
-                const firstFaqBtn = document.querySelector('.faq-item button');
-                if (firstFaqBtn) firstFaqBtn.click();
-            }, 1200);
-            
-            console.log('%cHeadStart landing page initialized successfully ✨', 'color:#c9a66b; font-family:monospace');
-        }
-        
-        window.onload = initialize;
-    </script>
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-inner">
+    <a href="#" class="footer-logo">Head<span>Start</span></a>
+    <span class="footer-copy">© 2026 SMB-Integrator. All rights reserved.</span>
+    <span class="footer-brand mono">Built by SMB-Integrator</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Form submit
+  document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  });
+
+  // Intro screen fade on scroll
+  const introScreen = document.getElementById('intro-screen');
+  document.body.style.overflow = 'hidden';
+
+  let introDismissed = false;
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    introScreen.style.opacity = '0';
+    setTimeout(() => {
+      introScreen.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 800);
+  }
+
+  window.addEventListener('scroll', dismissIntro, { once: true, passive: true });
+  window.addEventListener('wheel', dismissIntro, { once: true, passive: true });
+  window.addEventListener('touchmove', dismissIntro, { once: true, passive: true });
+  // Auto-dismiss after 4 seconds if they don't scroll
+  setTimeout(dismissIntro, 4000);
+</script>
 </body>
 </html>
